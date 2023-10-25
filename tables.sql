@@ -35,8 +35,8 @@ USE eshop_connect_a;
 -- CRIAÇÃO DAS ENTIDADES
 
 CREATE TABLE users(
-	pk_userID			INT NOT NULL AUTO_INCREMENT,
-    name			VARCHAR(40) NOT NULL,
+    pk_userID		INT NOT NULL AUTO_INCREMENT,
+    name		VARCHAR(40) NOT NULL,
     phoneNumber		VARCHAR(12),
     
     PRIMARY KEY (pk_userID)
@@ -44,23 +44,23 @@ CREATE TABLE users(
 );
 
 CREATE TABLE buyer(
-	pk_userID			INT NOT NULL AUTO_INCREMENT,
+    pk_userID		INT NOT NULL AUTO_INCREMENT,
     
     PRIMARY KEY (pk_userID),
     FOREIGN KEY (pk_userID) REFERENCES users(pk_userID)
 );
 
 CREATE TABLE seller(
-	pk_userID			INT NOT NULL AUTO_INCREMENT,
+    pk_userID	INT NOT NULL AUTO_INCREMENT,
     
     PRIMARY KEY (pk_userID),
     FOREIGN KEY (pk_userID) REFERENCES users(pk_userID)
 );
 
 CREATE TABLE bankCard(
-	pk_cardNumber		CHAR(19) NOT NULL,
+    pk_cardNumber		CHAR(19) NOT NULL,
     expiryDate			DATE NOT NULL,
-    bank				VARCHAR(20),
+    bank			VARCHAR(20),
     
     PRIMARY KEY (pk_cardNumber)
 );
@@ -68,9 +68,9 @@ CREATE TABLE bankCard(
 -- alter table bankCard update pk_cardNumber CHAR(19) NOT NULL;
 
 CREATE TABLE creditCard(
-	pk_cardNumber		CHAR(19) NOT NULL,
+    pk_cardNumber		CHAR(19) NOT NULL,
     fk_userID			INT NOT NULL,
-	organization		VARCHAR(50),
+    organization		VARCHAR(50),
     
     PRIMARY KEY (pk_cardNumber),
     FOREIGN KEY (pk_cardNumber) REFERENCES bankCard(pk_cardNumber),
@@ -78,15 +78,14 @@ CREATE TABLE creditCard(
 );
 
 CREATE TABLE debitCard(
-	pk_cardNumber		CHAR(19) NOT NULL,
+    pk_cardNumber		CHAR(19) NOT NULL,
     fk_userID			INT NOT NULL,
-	organization		VARCHAR(50),
+    organization		VARCHAR(50),
     
     PRIMARY KEY (pk_cardNumber),
     FOREIGN KEY (pk_cardNumber) REFERENCES bankCard(pk_cardNumber),
     FOREIGN KEY (fk_userid) REFERENCES users(pk_userID)
 );
-
 
 
 -- Desabilita as verificações de FKS
@@ -99,11 +98,12 @@ MODIFY COLUMN startTime DATE;
 -- Habilita as verificações de FKS
 SET FOREIGN_KEY_CHECKS = 1;
 
+
 CREATE TABLE store(
-	pk_sid 				INT NOT NULL,
-    name				VARCHAR(50) NOT NULL,
+    pk_sid 			INT NOT NULL,
+    name			VARCHAR(50) NOT NULL,
     province			VARCHAR(35) NOT NULL,
-    city				VARCHAR(40) NOT NULL,
+    city			VARCHAR(40) NOT NULL,
     streetaddr 			VARCHAR(30),
     customderGrade		INT,
     startTime			DATE,
@@ -112,20 +112,20 @@ CREATE TABLE store(
 );
 
 CREATE TABLE brand(
-	pk_brandName		VARCHAR(50) NOT NULL,
+    pk_brandName		VARCHAR(50) NOT NULL,
     
     PRIMARY KEY 		(pk_brandName)
 );
 
 CREATE TABLE product(
-	pk_pid				INT NOT NULL,
-    fk_sid				INT NOT NULL,
-    name				VARCHAR(120) NOT NULL,
+    pk_pid			INT NOT NULL,
+    fk_sid			INT NOT NULL,
+    name			VARCHAR(120) NOT NULL,
     fk_brandName		VARCHAR(50) NOT NULL,
-	type				VARCHAR(50),
-    amount				INT DEFAULT NULL,
-    price				DECIMAL(6,2) NOT NULL,
-    color				VARCHAR(20),
+    type			VARCHAR(50),
+    amount			INT DEFAULT NULL,
+    price			DECIMAL(6,2) NOT NULL,
+    color			VARCHAR(20),
     modelNumber			VARCHAR(50),
     
     PRIMARY KEY (pk_pid),
@@ -144,9 +144,9 @@ MODIFY COLUMN creationTime DATE;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE ordemItem(
-	pk_itemID 			INT NOT NULL AUTO_INCREMENT,
-    fk_pid 				INT NOT NULL,
-    price				DECIMAL(6,2),
+    pk_itemID 			INT NOT NULL AUTO_INCREMENT,
+    fk_pid 			INT NOT NULL,
+    price			DECIMAL(6,2),
     creationTime		TIME NOT NULL,
     
     PRIMARY KEY (pk_itemID),
@@ -164,8 +164,9 @@ MODIFY COLUMN creation_time DATE;
 -- Habilita as verificações de FKS
 SET FOREIGN_KEY_CHECKS = 1;
 
+
 CREATE TABLE orders(
-	pk_orderNumber		INT NOT NULL,
+    pk_orderNumber		INT NOT NULL,
     payment_state		ENUM('Paid','Unpaid'),
     creation_time		TIME NOT NULL,
     totalAmount			DECIMAL(10,2),
@@ -174,12 +175,12 @@ CREATE TABLE orders(
 );
 
 CREATE TABLE adress(
-	pk_addID			INT NOT NULL,
+    pk_addID			INT NOT NULL,
     fk_userID			INT NOT NULL,
-    name				VARCHAR(50),
-    contactPhoneNumber	VARCHAR(20),
+    name			VARCHAR(50),
+    contactPhoneNumber		VARCHAR(20),
     province			VARCHAR(100),
-    city				VARCHAR(100),
+    city			VARCHAR(100),
     streetaddr			VARCHAR(100),
     postCode			VARCHAR(12),
     
@@ -188,11 +189,11 @@ CREATE TABLE adress(
 );
 
 CREATE TABLE comments( -- Entidade fraca
-	creationTime		DATE NOT NULL,
+    creationTime		DATE NOT NULL,
     fk_userID			INT NOT NULL,
-    fk_pid				INT NOT NULL,
-    grade				FLOAT,
-    content				VARCHAR(500),
+    fk_pid			INT NOT NULL,
+    grade			FLOAT,
+    content			VARCHAR(500),
     
     PRIMARY KEY (creationTime, fk_userID, fk_pid),
     FOREIGN KEY (fk_userID) REFERENCES users(pk_userID),
@@ -201,20 +202,20 @@ CREATE TABLE comments( -- Entidade fraca
 
 
 CREATE TABLE servicePoint(
-	pk_sid				INT NOT NULL,
+    pk_sid			INT NOT NULL,
     streetaddr			VARCHAR(100) NOT NULL,
-    city				VARCHAR(50),
+    city			VARCHAR(50),
     province			VARCHAR(50),
     startTime			VARCHAR(20),
-    endTime				VARCHAR(20),
+    endTime			VARCHAR(20),
     
     PRIMARY KEY (pk_sid)
 );
 
 CREATE TABLE save_to_Shopping_Cart(
-	fk_userID			INT NOT NULL,
-    fk_pid				INT NOT NULL,
-    addTime				DATE NOT NULL,
+    fk_userID			INT NOT NULL,
+    fk_pid			INT NOT NULL,
+    addTime			DATE NOT NULL,
     quantity			INT,
     
     PRIMARY KEY(fk_userID, fk_pid),
@@ -223,7 +224,7 @@ CREATE TABLE save_to_Shopping_Cart(
 );
 
 CREATE TABLE contain(
-	fk_orderNumber		INT NOT NULL,
+    fk_orderNumber		INT NOT NULL,
     fk_itemID			INT NOT NULL,
     quantity			INT,
     
@@ -233,9 +234,9 @@ CREATE TABLE contain(
 );
 
 CREATE TABLE payment(
-	fk_orderNumber		INT NOT NULL,
-    fk_creditcardNumber	VARCHAR(25) NOT NULL,
-    payTime				DATE,
+    fk_orderNumber		INT NOT NULL,
+    fk_creditcardNumber		VARCHAR(25) NOT NULL,
+    payTime			DATE,
     
     PRIMARY KEY (fk_orderNumber, fk_creditcardNumber),
     FOREIGN KEY (fk_orderNumber) REFERENCES orders(pk_orderNumber),
@@ -243,9 +244,9 @@ CREATE TABLE payment(
 );
 
 CREATE TABLE deliver_To(
-    fk_addID            INT NOT NULL,
-    fk_orderNumber         INT NOT NULL,
-    TimeDelivered         DATE,
+    fk_addID            	INT NOT NULL,
+    fk_orderNumber         	INT NOT NULL,
+    TimeDelivered         	DATE,
     
     PRIMARY KEY(fk_addID,fk_orderNumber),
     FOREIGN KEY(fk_addID) REFERENCES adress(pk_addID),
@@ -255,9 +256,9 @@ CREATE TABLE deliver_To(
  
 
 CREATE TABLE manage (
-    fk_userid             INT NOT NULL,
-    fk_sid                 INT NOT NULL,
-    setUpTime             DATE,
+    fk_userid             	INT NOT NULL,
+    fk_sid                 	INT NOT NULL,
+    setUpTime             	DATE,
     
     PRIMARY KEY(fk_userid,fk_sid),
     FOREIGN KEY(fk_userid) REFERENCES seller(pk_userid),
@@ -267,8 +268,8 @@ CREATE TABLE manage (
 
 
 CREATE TABLE After_Sales_Service_At(
-    fk_brandName         VARCHAR(20) NOT NULL,
-    fk_sid             INT NOT NULL,
+    fk_brandName        	VARCHAR(20) NOT NULL,
+    fk_sid             		INT NOT NULL,
     
     PRIMARY KEY(fk_brandName, fk_sid),
     FOREIGN KEY(fk_brandName) REFERENCES brand (pk_brandName),
