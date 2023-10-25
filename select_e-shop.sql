@@ -1,5 +1,6 @@
 -- 2. Crie visualizações (views) para fazer o seguinte:
 
+
 -- a. Consultar todos os produtos existentes na loja
 SELECT * FROM product;
 
@@ -12,7 +13,7 @@ SELECT name FROM users;
 SELECT * FROM store;
 
 
--- d) Consultar os endereços relacionando com os clientes;
+-- d. Consultar os endereços relacionando com os clientes;
 SELECT
 u.pk_userID AS ID, a.streetAddr AS RUA, a.city AS CIDADE, u.name AS Cliente
 from 
@@ -56,7 +57,8 @@ ON
 	p.pk_pid = sc.fk_pid
 WHERE
 	p.fk_sid = 8;
-	
+
+
 -- h. Consultar os comentários do produto 123456789.
 SELECT 
 	p.name AS PRODUTO, c.grade AS NOTA, c.content AS COMENTÁRIO
